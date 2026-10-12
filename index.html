@@ -358,7 +358,8 @@ const translations = {
   }
 };
 
-let currentLang = localStorage.getItem('imc-lang') || (navigator.language && navigator.language.startsWith('en') ? 'en' : 'ro');
+const urlLang = new URLSearchParams(window.location.search).get('lang');
+let currentLang = (urlLang && translations[urlLang]) ? urlLang : (localStorage.getItem('imc-lang') || (navigator.language && navigator.language.startsWith('en') ? 'en' : 'ro'));
 
 function applyLanguage(lang){
   if(!translations[lang]) lang = 'ro';
