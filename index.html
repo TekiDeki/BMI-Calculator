@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title data-i18n="title">Calculator IMC - Indice de Masă Corporală | BMI Calculator</title>
+<meta name="description" data-i18n-meta="description" content="Calculator IMC gratuit online - calculează rapid Indicele de Masă Corporală (BMI). Disponibil în română, engleză, sârbă latină și sârbă chirilică. Funcționează offline (PWA).">
+<meta name="keywords" content="calculator imc, indice masa corporala, bmi calculator, kalkulator bmi, калкулатор бми, calculator greutate ideala, body mass index">
+<meta name="author" content="TekiDeki">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://tekideki.github.io/calculator-imc/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Calculator IMC - Indice de Masă Corporală">
+<meta property="og:description" content="Calculator IMC gratuit, rapid și fără reclame. Funcționează offline ca aplicație (PWA). Disponibil în 4 limbi.">
+<meta property="og:url" content="https://tekideki.github.io/calculator-imc/">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:image" content="https://tekideki.github.io/calculator-imc/icon.svg">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calculator IMC - Indice de Masă Corporală">
+<meta name="twitter:description" content="Calculator IMC gratuit, rapid, PWA, în 4 limbi (RO/EN/SR Latn/SR Cyrl).">
+
+<!-- hreflang alternates (same SPA, informational for crawlers) -->
+<link rel="alternate" hreflang="ro" href="https://tekideki.github.io/calculator-imc/">
+<link rel="alternate" hreflang="en" href="https://tekideki.github.io/calculator-imc/?lang=en">
+<link rel="alternate" hreflang="sr-Latn" href="https://tekideki.github.io/calculator-imc/?lang=sr-Latn">
+<link rel="alternate" hreflang="sr-Cyrl" href="https://tekideki.github.io/calculator-imc/?lang=sr-Cyrl">
+<link rel="alternate" hreflang="x-default" href="https://tekideki.github.io/calculator-imc/">
+
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calculator IMC">
+<meta name="mobile-web-app-capable" content="yes">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculator IMC",
+  "alternateName": "BMI Calculator",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "author": { "@type": "Person", "name": "TekiDeki" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RON" },
+  "inLanguage": ["ro", "en", "sr-Latn", "sr-Cyrl"],
+  "description": "Calculator IMC gratuit online pentru calcularea Indicelui de Masă Corporală, disponibil în română, engleză și sârbă (latină și chirilică).",
+  "url": "https://tekideki.github.io/calculator-imc/"
+}
+</script>
+
+<style>
+  :root{
+    --bg:#eef1fb;
+    --card:#ffffff;
+    --text:#1e2433;
+    --muted:#64748b;
+    --accent:#4f46e5;
+    --accent-hover:#4338ca;
+    --input-bg:#ffffff;
+    --border:#e2e8f0;
+    --result-bg:#eef2ff;
+  }
+  html[data-theme="dark"]{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#e8ecf4;
+    --muted:#94a3b8;
+    --accent:#818cf8;
+    --accent-hover:#6366f1;
+    --input-bg:#334155;
+    --border:#334155;
+    --result-bg:#273449;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+    transition: background .3s ease, color .3s ease;
+    display:flex;
+    flex-direction:column;
+  }
+  .top-bar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1rem 1.25rem;
+  }
+  select, .icon-btn{
+    background:var(--input-bg);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:0.6rem;
+    padding:0.5rem 0.8rem;
+    font-size:0.9rem;
+    cursor:pointer;
+  }
+  .icon-btn{ font-size:1.1rem; display:flex; align-items:center; gap:0.4rem; }
+  main{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:1rem;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:1.25rem;
+    padding:2rem;
+    width:100%;
+    max-width:460px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    transition: background .3s ease, border-color .3s ease;
+  }
+  h1{ font-size:1.6rem; margin:0 0 0.3rem; }
+  .subtitle{ color:var(--muted); margin:0 0 1.5rem; font-size:0.95rem; }
+  label{ display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.35rem; }
+  input{
+    width:100%;
+    background:var(--input-bg);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:0.7rem;
+    padding:0.65rem 0.9rem;
+    font-size:1rem;
+    margin-bottom:1rem;
+    outline:none;
+  }
+  input:focus{ border-color:var(--accent); }
+  .btn-row{
+    display:flex;
+    gap:0.75rem;
+  }
+  button#calc-btn{
+    flex:2;
+    background:var(--accent);
+    color:white;
+    border:none;
+    padding:0.8rem;
+    border-radius:0.8rem;
+    font-weight:700;
+    font-size:1rem;
+    cursor:pointer;
+    transition: background .2s ease;
+  }
+  button#calc-btn:hover{ background:var(--accent-hover); }
+  button#reset-btn{
+    flex:1;
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--border);
+    padding:0.8rem;
+    border-radius:0.8rem;
+    font-weight:700;
+    font-size:1rem;
+    cursor:pointer;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  button#reset-btn:hover{ background:var(--result-bg); border-color:var(--accent); }
+  .result-box{
+    margin-top:1.5rem;
+    background:var(--result-bg);
+    border-radius:1rem;
+    padding:1.25rem;
+    text-align:center;
+    transition: background .3s ease;
+  }
+  #imc-value{ font-size:2.5rem; font-weight:800; color:var(--accent); }
+  #imc-category{ font-weight:600; margin-top:0.25rem; color:var(--text); }
+  footer{
+    text-align:center;
+    padding:1.5rem 1rem 2rem;
+  }
+  .donate-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    background:#ffc439;
+    color:#1b1b1b;
+    font-weight:700;
+    padding:0.7rem 1.4rem;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:0.95rem;
+    box-shadow:0 4px 14px rgba(255,196,57,0.4);
+    transition: transform .2s ease;
+  }
+  .donate-btn:hover{ transform: translateY(-2px); }
+  .footer-actions{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:0.75rem;
+  }
+  .share-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    font-weight:700;
+    padding:0.7rem 1.4rem;
+    border-radius:999px;
+    font-size:0.95rem;
+    cursor:pointer;
+    transition: transform .2s ease, background .2s ease;
+  }
+  .share-btn:hover{ transform: translateY(-2px); background:var(--result-bg); }
+  .scale-note{ font-size:0.75rem; color:var(--muted); margin-top:1rem; text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+    <span id="theme-icon">🌙</span>
+    <span id="theme-label" data-i18n="themeDark">Dark</span>
+  </button>
+  <select id="lang-select" aria-label="Language selector">
+    <option value="ro">🇷🇴 Română</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="sr-Latn">🇷🇸 Srpski (Latinica)</option>
+    <option value="sr-Cyrl">🇷🇸 Српски (Ћирилица)</option>
+  </select>
+</div>
+
+<main>
+  <div class="card">
+    <h1 data-i18n="heading">Calculator IMC</h1>
+    <p class="subtitle" data-i18n="subtitle">Calculează rapid indicele tău de masă corporală</p>
+
+    <label for="weight" data-i18n="weightLabel">Greutate (kg)</label>
+    <input id="weight" type="number" inputmode="decimal" placeholder="70" min="1" step="0.1">
+
+    <label for="height" data-i18n="heightLabel">Înălțime (cm)</label>
+    <input id="height" type="number" inputmode="decimal" placeholder="175" min="1" step="0.1">
+
+    <div class="btn-row">
+      <button id="calc-btn" onclick="calculateIMC()" data-i18n="button">Calculează IMC</button>
+      <button id="reset-btn" onclick="resetForm()" data-i18n="reset">Resetează</button>
+    </div>
+
+    <div class="result-box">
+      <div id="imc-value">--</div>
+      <div id="imc-category" data-i18n="resultPlaceholder">Completează datele</div>
+    </div>
+    <p class="scale-note" data-i18n="note">IMC este un indicator orientativ, nu un diagnostic medical.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-actions">
+    <button id="share-btn" class="share-btn" onclick="shareApp()">
+      🔗 <span data-i18n="share">Distribuie</span>
+    </button>
+    <a class="donate-btn" href="https://paypal.me/TekiDeki" target="_blank" rel="noopener noreferrer">
+      ☕ <span data-i18n="donate">Merit o cafeluță?</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+const translations = {
+  ro: {
+    title: "Calculator IMC - Indice de Masă Corporală | BMI Calculator",
+    description: "Calculator IMC gratuit online - calculează rapid Indicele de Masă Corporală (BMI).",
+    heading: "Calculator IMC",
+    subtitle: "Calculează rapid indicele tău de masă corporală",
+    weightLabel: "Greutate (kg)",
+    heightLabel: "Înălțime (cm)",
+    button: "Calculează IMC",
+    reset: "Resetează",
+    resultPlaceholder: "Completează datele",
+    note: "IMC este un indicator orientativ, nu un diagnostic medical.",
+    donate: "Merit o cafeluță?",
+    share: "Distribuie",
+    shareTitle: "Calculator IMC",
+    shareText: "Calculează-ți rapid Indicele de Masă Corporală cu acest calculator gratuit!",
+    shareCopied: "Link copiat!",
+    themeDark: "Dark",
+    themeLight: "Light",
+    categories: { under: "Subponderal", normal: "Greutate normală", over: "Supraponderal", obese: "Obezitate" },
+    invalid: "Completează date valide"
+  },
+  en: {
+    title: "BMI Calculator - Body Mass Index",
+    description: "Free online BMI calculator - quickly calculate your Body Mass Index.",
+    heading: "BMI Calculator",
+    subtitle: "Quickly calculate your Body Mass Index",
+    weightLabel: "Weight (kg)",
+    heightLabel: "Height (cm)",
+    button: "Calculate BMI",
+    reset: "Reset",
+    resultPlaceholder: "Fill in the data",
+    note: "BMI is an indicative value, not a medical diagnosis.",
+    donate: "Buy me a coffee?",
+    share: "Share",
+    shareTitle: "BMI Calculator",
+    shareText: "Quickly calculate your Body Mass Index with this free calculator!",
+    shareCopied: "Link copied!",
+    themeDark: "Dark",
+    themeLight: "Light",
+    categories: { under: "Underweight", normal: "Normal weight", over: "Overweight", obese: "Obese" },
+    invalid: "Please enter valid data"
+  },
+  "sr-Latn": {
+    title: "Kalkulator BMI - Indeks telesne mase",
+    description: "Besplatni online kalkulator BMI - brzo izračunajte svoj indeks telesne mase.",
+    heading: "Kalkulator BMI",
+    subtitle: "Brzo izračunajte svoj indeks telesne mase",
+    weightLabel: "Težina (kg)",
+    heightLabel: "Visina (cm)",
+    button: "Izračunaj BMI",
+    reset: "Resetuj",
+    resultPlaceholder: "Popunite podatke",
+    note: "BMI je orijentacioni pokazatelj, a ne medicinska dijagnoza.",
+    donate: "Časti me kafom?",
+    share: "Podeli",
+    shareTitle: "Kalkulator BMI",
+    shareText: "Brzo izračunajte svoj indeks telesne mase pomoću ovog besplatnog kalkulatora!",
+    shareCopied: "Link kopiran!",
+    themeDark: "Taman",
+    themeLight: "Svetao",
+    categories: { under: "Pothranjenost", normal: "Normalna težina", over: "Prekomerna težina", obese: "Gojaznost" },
+    invalid: "Unesite ispravne podatke"
+  },
+  "sr-Cyrl": {
+    title: "Калкулатор БМИ - Индекс телесне масе",
+    description: "Бесплатни онлајн калкулатор БМИ - брзо израчунајте свој индекс телесне масе.",
+    heading: "Калкулатор БМИ",
+    subtitle: "Брзо израчунајте свој индекс телесне масе",
+    weightLabel: "Тежина (kg)",
+    heightLabel: "Висина (cm)",
+    button: "Израчунај БМИ",
+    reset: "Ресетуј",
+    resultPlaceholder: "Попуните податке",
+    note: "БМИ је оријентациони показатељ, а не медицинска дијагноза.",
+    donate: "Части ме кафом?",
+    share: "Подели",
+    shareTitle: "Калкулатор БМИ",
+    shareText: "Брзо израчунајте свој индекс телесне масе помоћу овог бесплатног калкулатора!",
+    shareCopied: "Линк копиран!",
+    themeDark: "Таман",
+    themeLight: "Светао",
+    categories: { under: "Потхрањеност", normal: "Нормална тежина", over: "Прекомерна тежина", obese: "Гојазност" },
+    invalid: "Унесите исправне податке"
+  }
+};
+
+let currentLang = localStorage.getItem('imc-lang') || (navigator.language && navigator.language.startsWith('en') ? 'en' : 'ro');
+
+function applyLanguage(lang){
+  if(!translations[lang]) lang = 'ro';
+  currentLang = lang;
+  localStorage.setItem('imc-lang', lang);
+  const t = translations[lang];
+  document.documentElement.lang = lang;
+  document.title = t.title;
+  document.querySelector('meta[name="description"]').setAttribute('content', t.description);
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(t[key] !== undefined) el.textContent = t[key];
+  });
+
+  document.getElementById('lang-select').value = lang;
+  const themeIsDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.getElementById('theme-label').textContent = themeIsDark ? t.themeLight : t.themeDark;
+
+  updateResultDisplay();
+}
+
+document.getElementById('lang-select').addEventListener('change', (e) => applyLanguage(e.target.value));
+
+let lastIMC = null;
+
+function calculateIMC(){
+  const w = parseFloat(document.getElementById('weight').value);
+  const h = parseFloat(document.getElementById('height').value) / 100;
+  const t = translations[currentLang];
+  if(!w || !h || w <= 0 || h <= 0){
+    lastIMC = null;
+    document.getElementById('imc-value').textContent = '--';
+    document.getElementById('imc-category').textContent = t.invalid;
+    return;
+  }
+  lastIMC = w / (h*h);
+  updateResultDisplay();
+}
+
+function resetForm(){
+  document.getElementById('weight').value = '';
+  document.getElementById('height').value = '';
+  lastIMC = null;
+  updateResultDisplay();
+  document.getElementById('weight').focus();
+}
+
+function updateResultDisplay(){
+  const t = translations[currentLang];
+  if(lastIMC === null){
+    document.getElementById('imc-value').textContent = '--';
+    document.getElementById('imc-category').textContent = t.resultPlaceholder;
+    return;
+  }
+  document.getElementById('imc-value').textContent = lastIMC.toFixed(1);
+  let cat;
+  if(lastIMC < 18.5) cat = t.categories.under;
+  else if(lastIMC < 25) cat = t.categories.normal;
+  else if(lastIMC < 30) cat = t.categories.over;
+  else cat = t.categories.obese;
+  document.getElementById('imc-category').textContent = cat;
+}
+
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('imc-theme', theme);
+  document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+  const t = translations[currentLang];
+  document.getElementById('theme-label').textContent = theme === 'dark' ? t.themeLight : t.themeDark;
+}
+
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+// Init theme
+const savedTheme = localStorage.getItem('imc-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+applyTheme(savedTheme);
+
+// Init language
+applyLanguage(currentLang);
+
+// PWA: register service worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW registration failed:', err));
+  });
+}
+
+async function shareApp(){
+  const t = translations[currentLang];
+  const shareData = {
+    title: t.shareTitle,
+    text: t.shareText,
+    url: window.location.href
+  };
+
+  if(navigator.share){
+    try{
+      await navigator.share(shareData);
+    }catch(err){
+      // Utilizatorul a anulat sau a apărut o eroare - nu facem nimic
+    }
+  } else {
+    try{
+      await navigator.clipboard.writeText(shareData.url);
+      const btn = document.getElementById('share-btn');
+      const original = btn.innerHTML;
+      btn.innerHTML = '✅ ' + t.shareCopied;
+      setTimeout(() => { btn.innerHTML = original; }, 2000);
+    }catch(err){
+      window.prompt('Copy this link:', shareData.url);
+    }
+  }
+}
+</script>
+</body>
+</html>

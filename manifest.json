@@ -1,0 +1,29 @@
+{
+  "name": "Calculator IMC - BMI Calculator",
+  "short_name": "Calculator IMC",
+  "description": "Calculator IMC gratuit online, disponibil în română, engleză și sârbă (latină și chirilică). Funcționează offline.",
+  "id": "/calculator-imc/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#eef1fb",
+  "theme_color": "#4f46e5",
+  "lang": "ro",
+  "dir": "ltr",
+  "categories": ["health", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
