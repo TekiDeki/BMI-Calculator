@@ -1,11 +1,16 @@
 // Service Worker informativ pentru Calculator IMC (TekiDeki)
 // Strategie: cache-first pentru shell-ul aplicației, cu fallback la rețea.
 
-const CACHE_NAME = 'calculator-imc-v1';
+const CACHE_NAME = 'calculator-imc-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
+  './favicon.ico',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png',
   './icon.svg'
 ];
 
