@@ -1,10 +1,11 @@
 // Service Worker informativ pentru Calculator IMC (TekiDeki)
 // Strategie: cache-first pentru shell-ul aplicației, cu fallback la rețea.
 
-const CACHE_NAME = 'calculator-imc-v2';
+const CACHE_NAME = 'calculator-imc-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './LICENSE',
   './manifest.json',
   './favicon.ico',
   './icon-192.png',
@@ -29,7 +30,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((key) => key !== CACHE_NAME)
+          .filter((key) => key.startsWith('calculator-imc-v') && key !== CACHE_NAME)
           .map((key) => caches.delete(key))
       )
     ).then(() => self.clients.claim())
@@ -38,6 +39,11 @@ self.addEventListener('activate', (event) => {
 
 // Fetch: cache-first, cu fallback la rețea și apoi la pagina principală (offline)
 self.addEventListener('fetch', (event) => {
+  const licenseUrl = new URL('./LICENSE', self.registration.scope).href;
+  if (event.request.method === 'GET' && event.request.url === licenseUrl) {
+    event.respondWith(caches.open(CACHE_NAME).then(cache => cache.match(event.request)).then(cached => cached || fetch(event.request)));
+    return;
+  }
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
