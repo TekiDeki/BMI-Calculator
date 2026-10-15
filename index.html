@@ -1,27 +1,34 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="ro" data-theme="light" data-unit="metric">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title data-i18n="title">Calculator IMC - Indice de Masă Corporală | BMI Calculator</title>
-<meta name="description" data-i18n-meta="description" content="Calculator IMC gratuit online - calculează rapid Indicele de Masă Corporală (BMI). Disponibil în română, engleză, sârbă latină și sârbă chirilică. Funcționează offline (PWA).">
-<meta name="keywords" content="calculator imc, indice masa corporala, bmi calculator, kalkulator bmi, калкулатор бми, calculator greutate ideala, body mass index">
+<meta name="description" data-i18n-meta="description" content="Calculator IMC gratuit - afli indicele de masă corporală, intervalul sănătos pentru înălțimea ta și categoria. Metric și imperial, offline, fără reclame.">
+<meta name="keywords" content="calculator imc, indice masa corporala, bmi calculator, kalkulator bmi, калкулатор бми, greutate ideala, healthy weight range, body mass index, imperial bmi, kg, lb">
 <meta name="author" content="TekiDeki">
 <meta name="robots" content="index, follow">
+<meta name="color-scheme" content="light dark">
 <link rel="canonical" href="https://tekideki.github.io/BMI-Calculator/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Calculator IMC - Indice de Masă Corporală">
-<meta property="og:description" content="Calculator IMC gratuit, rapid și fără reclame. Funcționează offline ca aplicație (PWA). Disponibil în 4 limbi.">
+<meta property="og:title" content="Calculator IMC - Indice de Masă Corporală | BMI Calculator">
+<meta property="og:description" content="Calculează-ți indicele de masă corporală, intervalul sănătos de greutate și categoria. Metric și imperial, în 4 limbi, funcționează offline.">
 <meta property="og:url" content="https://tekideki.github.io/BMI-Calculator/">
 <meta property="og:locale" content="ro_RO">
-<meta property="og:image" content="https://tekideki.github.io/BMI-Calculator/icon.svg">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="sr_RS">
+<meta property="og:image" content="https://tekideki.github.io/BMI-Calculator/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Calculator IMC / BMI Calculator - instant, offline, 4 languages">
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Calculator IMC - Indice de Masă Corporală">
-<meta name="twitter:description" content="Calculator IMC gratuit, rapid, PWA, în 4 limbi (RO/EN/SR Latn/SR Cyrl).">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Calculator IMC - Indice de Masă Corporală | BMI Calculator">
+<meta name="twitter:description" content="Calculează-ți indicele de masă corporală, intervalul sănătos de greutate și categoria. Metric și imperial, în 4 limbi, funcționează offline.">
+<meta name="twitter:image" content="https://tekideki.github.io/BMI-Calculator/og-image.png">
 
 <!-- hreflang alternates (same SPA, informational for crawlers) -->
 <link rel="alternate" hreflang="ro" href="https://tekideki.github.io/BMI-Calculator/">
@@ -32,7 +39,7 @@
 
 <!-- PWA -->
 <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#eef1fb">
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -51,12 +58,44 @@
   "alternateName": "BMI Calculator",
   "applicationCategory": "HealthApplication",
   "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript. Works offline once loaded.",
+  "softwareVersion": "2.0",
+  "isAccessibleForFree": true,
   "author": { "@type": "Person", "name": "TekiDeki" },
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RON" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
   "inLanguage": ["ro", "en", "sr-Latn", "sr-Cyrl"],
-  "description": "Calculator IMC gratuit online pentru calcularea Indicelui de Masă Corporală, disponibil în română, engleză și sârbă (latină și chirilică).",
-  "url": "https://tekideki.github.io/BMI-Calculator/"
+  "description": "Calculator IMC gratuit online: indicele de masă corporală, intervalul sănătos de greutate pentru înălțimea aleasă, categoria și scala vizuală. Unități metrice și imperiale, disponibil în română, engleză și sârbă (latină și chirilică).",
+  "url": "https://tekideki.github.io/BMI-Calculator/",
+  "featureList": [
+    "Body Mass Index calculation",
+    "Healthy weight range for your height",
+    "Visual BMI category scale",
+    "Metric and imperial units",
+    "Four interface languages",
+    "Offline PWA with install support"
+  ]
 }
+</script>
+
+<!-- Applied before first paint: theme, language and unit, with no flash and no crash if storage is blocked. -->
+<script>
+(function(){
+  var root = document.documentElement;
+  function read(key){ try { return localStorage.getItem(key); } catch (e) { return null; } }
+  var theme = read('imc-theme');
+  if (theme !== 'dark' && theme !== 'light') {
+    theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  root.setAttribute('data-theme', theme);
+  var params = new URLSearchParams(location.search);
+  var urlLang = params.get('lang');
+  var lang = (urlLang && /^(ro|en|sr-Latn|sr-Cyrl)$/.test(urlLang)) ? urlLang : read('imc-lang');
+  if (lang) root.setAttribute('lang', lang);
+  var unit = (params.get('unit') === 'imperial') ? 'imperial' : (read('imc-unit') === 'imperial' ? 'imperial' : 'metric');
+  root.setAttribute('data-unit', unit);
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f172a' : '#eef1fb');
+})();
 </script>
 
 <style>
@@ -64,12 +103,22 @@
     --bg:#eef1fb;
     --card:#ffffff;
     --text:#1e2433;
-    --muted:#64748b;
+    --muted:#475569;
     --accent:#4f46e5;
-    --accent-hover:#4338ca;
+    --btn-bg:#4f46e5;
+    --btn-bg-hover:#4338ca;
+    --value-color:#4338ca;
     --input-bg:#ffffff;
-    --border:#e2e8f0;
+    --border:#dbe2ef;
     --result-bg:#eef2ff;
+    --shadow:0 10px 30px rgba(15,23,42,.08);
+    --ok-bg:#dcfce7; --ok-text:#166534;
+    --under-bg:#e0edff; --under-text:#1e40af;
+    --over-bg:#fef3c7; --over-text:#92400e;
+    --obese-bg:#fee2e2; --obese-text:#991b1b;
+    --scale-under:#60a5fa; --scale-normal:#34d399; --scale-over:#fbbf24; --scale-obese:#f87171;
+    --error:#b91c1c;
+    --notice-bg:#e0e7ff; --notice-text:#312e81;
   }
   html[data-theme="dark"]{
     --bg:#0f172a;
@@ -77,11 +126,23 @@
     --text:#e8ecf4;
     --muted:#94a3b8;
     --accent:#818cf8;
-    --accent-hover:#6366f1;
+    --btn-bg:#4f46e5;
+    --btn-bg-hover:#6058ec;
+    --value-color:#a5b4fc;
     --input-bg:#334155;
-    --border:#334155;
+    --border:#3b4a63;
     --result-bg:#273449;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --ok-bg:rgba(16,185,129,.18); --ok-text:#6ee7b7;
+    --under-bg:rgba(59,130,246,.18); --under-text:#93c5fd;
+    --over-bg:rgba(245,158,11,.20); --over-text:#fcd34d;
+    --obese-bg:rgba(239,68,68,.20); --obese-text:#fca5a5;
+    --scale-under:#3b82f6; --scale-normal:#10b981; --scale-over:#f59e0b; --scale-obese:#ef4444;
+    --error:#fca5a5;
+    --notice-bg:rgba(99,102,241,.20); --notice-text:#c7d2fe;
   }
+  html{ color-scheme: light; }
+  html[data-theme="dark"]{ color-scheme: dark; }
   *{ box-sizing: border-box; }
   body{
     margin:0;
@@ -93,8 +154,16 @@
     display:flex;
     flex-direction:column;
   }
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+  }
+  :focus-visible{ outline:3px solid var(--accent); outline-offset:2px; border-radius:8px; }
+
+  .site-header{ display:block; }
   .top-bar{
     display:flex; justify-content:space-between; align-items:center;
+    gap:.75rem;
     padding:1rem 1.25rem;
   }
   select, .icon-btn{
@@ -107,6 +176,21 @@
     cursor:pointer;
   }
   .icon-btn{ font-size:1.1rem; display:flex; align-items:center; gap:0.4rem; }
+  .icon-btn:hover{ border-color:var(--accent); }
+
+  .update-notice[hidden]{ display:none; }
+  .update-notice{
+    display:flex; align-items:center; justify-content:center; gap:.75rem; flex-wrap:wrap;
+    max-width:460px; margin:.25rem auto 0; padding:.6rem 1rem;
+    background:var(--notice-bg); color:var(--notice-text);
+    border-radius:.9rem; font-size:.9rem; width:calc(100% - 2rem);
+  }
+  .update-notice button{
+    background:var(--btn-bg); color:#fff; border:none; border-radius:.6rem;
+    padding:.4rem .9rem; font-weight:700; font-size:.85rem; cursor:pointer;
+  }
+  .update-notice button:hover{ background:var(--btn-bg-hover); }
+
   main{
     flex:1;
     display:flex;
@@ -121,13 +205,36 @@
     padding:2rem;
     width:100%;
     max-width:460px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    box-shadow:var(--shadow);
     transition: background .3s ease, border-color .3s ease;
   }
   h1{ font-size:1.6rem; margin:0 0 0.3rem; }
-  .subtitle{ color:var(--muted); margin:0 0 1.5rem; font-size:0.95rem; }
-  label{ display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.35rem; }
-  input{
+  .subtitle{ color:var(--muted); margin:0 0 1.4rem; font-size:0.95rem; }
+
+  .units{
+    border:0; margin:0 0 1.2rem; padding:0;
+    display:flex; gap:.4rem; background:var(--result-bg);
+    border-radius:.8rem; padding:.25rem;
+  }
+  .unit-option{ flex:1; display:block; }
+  .unit-option input{
+    position:absolute; opacity:0; width:1px; height:1px; margin:0;
+  }
+  .unit-option span{
+    display:block; text-align:center; cursor:pointer;
+    padding:.5rem .4rem; border-radius:.6rem;
+    font-size:.85rem; font-weight:600; color:var(--muted);
+    transition: background .2s ease, color .2s ease;
+  }
+  .unit-option input:checked + span{
+    background:var(--card); color:var(--text);
+    box-shadow:0 1px 4px rgba(15,23,42,.12);
+  }
+  .unit-option input:focus-visible + span{ outline:3px solid var(--accent); outline-offset:2px; }
+
+  .field{ margin-bottom:1rem; }
+  label, .field-label{ display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.35rem; }
+  input[type="text"]{
     width:100%;
     background:var(--input-bg);
     color:var(--text);
@@ -135,18 +242,27 @@
     border-radius:0.7rem;
     padding:0.65rem 0.9rem;
     font-size:1rem;
-    margin-bottom:1rem;
     outline:none;
   }
-  input:focus{ border-color:var(--accent); }
+  input[type="text"]:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,70,229,.15); }
+  input[type="text"][aria-invalid="true"]{ border-color:var(--error); }
+  .error{ color:var(--error); font-size:.8rem; font-weight:600; margin:.35rem 0 0; }
+  .split{ display:flex; gap:.75rem; }
+  .split > div{ flex:1; }
+  .split label.mini{ font-size:.75rem; color:var(--muted); }
+
+  html[data-unit="metric"] [data-unit-only="imperial"],
+  html[data-unit="imperial"] [data-unit-only="metric"]{ display:none; }
+
   .btn-row{
     display:flex;
     gap:0.75rem;
+    margin-top:1.25rem;
   }
   button#calc-btn{
     flex:2;
-    background:var(--accent);
-    color:white;
+    background:var(--btn-bg);
+    color:#fff;
     border:none;
     padding:0.8rem;
     border-radius:0.8rem;
@@ -155,7 +271,7 @@
     cursor:pointer;
     transition: background .2s ease;
   }
-  button#calc-btn:hover{ background:var(--accent-hover); }
+  button#calc-btn:hover{ background:var(--btn-bg-hover); }
   button#reset-btn{
     flex:1;
     background:transparent;
@@ -169,6 +285,7 @@
     transition: background .2s ease, border-color .2s ease;
   }
   button#reset-btn:hover{ background:var(--result-bg); border-color:var(--accent); }
+
   .result-box{
     margin-top:1.5rem;
     background:var(--result-bg);
@@ -177,8 +294,53 @@
     text-align:center;
     transition: background .3s ease;
   }
-  #imc-value{ font-size:2.5rem; font-weight:800; color:var(--accent); }
-  #imc-category{ font-weight:600; margin-top:0.25rem; color:var(--text); }
+  .result-value{ display:flex; align-items:baseline; justify-content:center; gap:.4rem; }
+  #imc-value{ font-size:2.5rem; font-weight:800; color:var(--value-color); line-height:1.1; }
+  .result-unit{ font-size:.9rem; color:var(--muted); font-weight:600; }
+  .chip{
+    display:inline-block;
+    margin-top:.5rem;
+    padding:.3rem .8rem;
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:700;
+    background:var(--result-bg);
+    color:var(--text);
+  }
+  .chip-under{ background:var(--under-bg); color:var(--under-text); }
+  .chip-normal{ background:var(--ok-bg); color:var(--ok-text); }
+  .chip-over{ background:var(--over-bg); color:var(--over-text); }
+  .chip-obese{ background:var(--obese-bg); color:var(--obese-text); }
+
+  .scale{ margin-top:1.1rem; }
+  .scale-bar{
+    display:flex; height:12px; border-radius:999px; overflow:hidden;
+    background:var(--border);
+  }
+  .scale-bar span{ height:100%; }
+  .z-under{ width:17.3%; background:var(--scale-under); }
+  .z-normal{ width:25%; background:var(--scale-normal); }
+  .z-over{ width:19.2%; background:var(--scale-over); }
+  .z-obese{ width:38.5%; background:var(--scale-obese); }
+  .scale-track{ position:relative; padding-top:.6rem; }
+  .scale-marker{
+    position:absolute; top:0; left:50%;
+    width:0; height:0; transform:translateX(-50%);
+    border-left:7px solid transparent; border-right:7px solid transparent;
+    border-top:9px solid var(--text);
+    opacity:0;
+    transition: left .3s ease, opacity .2s ease;
+  }
+  .scale-marker.visible{ opacity:1; }
+  .scale-ticks{
+    display:flex; justify-content:space-between;
+    font-size:.7rem; color:var(--muted); margin-top:.4rem;
+  }
+  .healthy{ margin-top:.9rem; font-size:.9rem; font-weight:600; }
+  .delta{ margin-top:.25rem; font-size:.9rem; color:var(--muted); }
+  .scale-note{ font-size:0.75rem; color:var(--muted); margin-top:1rem; text-align:center; }
+  .privacy-note{ font-size:0.75rem; color:var(--muted); margin:.4rem 0 0; text-align:center; }
+
   footer{
     text-align:center;
     padding:1.5rem 1rem 2rem;
@@ -220,7 +382,6 @@
     transition: transform .2s ease, background .2s ease;
   }
   .share-btn:hover{ transform: translateY(-2px); background:var(--result-bg); }
-  .scale-note{ font-size:0.75rem; color:var(--muted); margin-top:1rem; text-align:center; }
 
 /* TekiDeki credits - shared footer, 2026-10-14. */
 .tekideki-credits {
@@ -233,6 +394,14 @@
 .tekideki-credits a:hover { text-decoration-thickness:2px; }
 .tekideki-credits a:focus-visible { outline:2px solid currentColor; outline-offset:4px; border-radius:2px; }
 
+@media (max-width:420px){
+  .card{ padding:1.4rem; }
+  h1{ font-size:1.4rem; }
+  #imc-value{ font-size:2.1rem; }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+}
 </style>
 <style id="td-install-styles">
 /* App-scoped install controls. Uses each app's existing theme; no external assets. */
@@ -256,12 +425,13 @@
 </head>
 <body>
 
+<header class="site-header">
 <div class="top-bar">
-  <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
-    <span id="theme-icon">🌙</span>
+  <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" data-i18n-aria="themeToggleLabel">
+    <span id="theme-icon" aria-hidden="true">🌙</span>
     <span id="theme-label" data-i18n="themeDark">Dark</span>
   </button>
-  <select id="lang-select" aria-label="Language selector">
+  <select id="lang-select" aria-label="Language selector" data-i18n-aria="langLabel">
     <option value="ro">🇷🇴 Română</option>
     <option value="en">🇬🇧 English</option>
     <option value="sr-Latn">🇷🇸 Srpski (Latinica)</option>
@@ -269,27 +439,95 @@
   </select>
 </div>
 
+<div class="update-notice" id="update-notice" role="status" hidden>
+  <span data-i18n="updateReady">O versiune nouă este disponibilă.</span>
+  <button type="button" id="update-reload" data-i18n="updateReload">Reîncarcă</button>
+</div>
+</header>
+
 <main>
   <div class="card">
     <h1 data-i18n="heading">Calculator IMC</h1>
-    <p class="subtitle" data-i18n="subtitle">Calculează rapid indicele tău de masă corporală</p>
+    <p class="subtitle" data-i18n="subtitle">Calculează-ți indicele de masă corporală și intervalul sănătos</p>
 
-    <label for="weight" data-i18n="weightLabel">Greutate (kg)</label>
-    <input id="weight" type="number" inputmode="decimal" placeholder="70" min="1" step="0.1">
+    <form id="bmi-form" novalidate>
+      <fieldset class="units">
+        <legend class="sr-only" data-i18n="unitsLegend">Sistem de unități</legend>
+        <label class="unit-option">
+          <input type="radio" name="unit" value="metric">
+          <span data-i18n="unitMetric">Metric (kg, cm)</span>
+        </label>
+        <label class="unit-option">
+          <input type="radio" name="unit" value="imperial">
+          <span data-i18n="unitImperial">Imperial (lb, ft/in)</span>
+        </label>
+      </fieldset>
 
-    <label for="height" data-i18n="heightLabel">Înălțime (cm)</label>
-    <input id="height" type="number" inputmode="decimal" placeholder="175" min="1" step="0.1">
+      <div class="field">
+        <label for="weight" id="weight-label"
+               data-unit-key-metric="weightLabelMetric" data-unit-key-imperial="weightLabelImperial">Greutate (kg)</label>
+        <input id="weight" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done"
+               aria-describedby="err-weight" placeholder="70">
+        <p class="error" id="err-weight" role="alert" hidden></p>
+      </div>
 
-    <div class="btn-row">
-      <button id="calc-btn" onclick="calculateIMC()" data-i18n="button">Calculează IMC</button>
-      <button id="reset-btn" onclick="resetForm()" data-i18n="reset">Resetează</button>
+      <div class="field" data-unit-only="metric">
+        <label for="height" id="height-label"
+               data-unit-key-metric="heightLabelMetric">Înălțime (cm)</label>
+        <input id="height" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done"
+               aria-describedby="err-height" placeholder="175">
+        <p class="error" id="err-height" role="alert" hidden></p>
+      </div>
+
+      <div class="field" data-unit-only="imperial" role="group" aria-labelledby="height-imperial-label">
+        <span class="field-label" id="height-imperial-label"
+              data-unit-key-imperial="heightLabelImperial">Înălțime</span>
+        <div class="split">
+          <div>
+            <label class="mini" for="height-ft" data-i18n="ftLabel">ft</label>
+            <input id="height-ft" type="text" inputmode="numeric" autocomplete="off"
+                   aria-describedby="err-height-imperial" placeholder="5">
+          </div>
+          <div>
+            <label class="mini" for="height-in" data-i18n="inLabel">in</label>
+            <input id="height-in" type="text" inputmode="numeric" autocomplete="off"
+                   aria-describedby="err-height-imperial" placeholder="9">
+          </div>
+        </div>
+        <p class="error" id="err-height-imperial" role="alert" hidden></p>
+      </div>
+
+      <div class="btn-row">
+        <button id="calc-btn" type="submit" data-i18n="button">Calculează IMC</button>
+        <button id="reset-btn" type="button" data-i18n="reset">Resetează</button>
+      </div>
+    </form>
+
+    <div class="result-box" role="status" aria-live="polite" aria-atomic="true">
+      <div class="result-value">
+        <span id="imc-value">--</span>
+        <span class="result-unit" aria-hidden="true">kg/m²</span>
+      </div>
+      <div id="imc-category" class="chip" data-i18n="resultPlaceholder">Completează datele</div>
+
+      <div class="scale" aria-hidden="true">
+        <div class="scale-track">
+          <div class="scale-marker" id="scale-marker"></div>
+          <div class="scale-bar">
+            <span class="z-under"></span><span class="z-normal"></span><span class="z-over"></span><span class="z-obese"></span>
+          </div>
+        </div>
+        <div class="scale-ticks">
+          <span>18.5</span><span>25</span><span>30</span><span data-i18n="zoneObese">30+</span>
+        </div>
+      </div>
+
+      <p class="healthy" id="healthy-line" hidden></p>
+      <p class="delta" id="delta-line" hidden></p>
     </div>
 
-    <div class="result-box">
-      <div id="imc-value">--</div>
-      <div id="imc-category" data-i18n="resultPlaceholder">Completează datele</div>
-    </div>
     <p class="scale-note" data-i18n="note">IMC este un indicator orientativ, nu un diagnostic medical.</p>
+    <p class="privacy-note" data-i18n="privacy">Nicio dată nu părăsește dispozitivul. Greutatea și înălțimea nu sunt salvate.</p>
   </div>
 </main>
 
@@ -301,222 +539,700 @@
 
 <footer>
   <div class="footer-actions">
-    <button id="share-btn" class="share-btn" onclick="shareApp()">
-      🔗 <span data-i18n="share">Distribuie</span>
+    <button id="share-btn" class="share-btn" type="button">
+      <span aria-hidden="true">🔗</span> <span id="share-label" data-i18n="share">Distribuie</span>
     </button>
     <a class="donate-btn" href="https://paypal.me/TekiDeki" target="_blank" rel="noopener noreferrer">
-      ☕ <span data-i18n="donate">Merit o cafeluță?</span>
+      <span aria-hidden="true">☕</span> <span data-i18n="donate">Merit o cafeluță?</span>
     </a>
   </div>
 <div class="tekideki-credits" id="tekideki-credits"><span>© 2026 <a href="https://github.com/TekiDeki" target="_blank" rel="noopener noreferrer">TekiDeki</a></span><span aria-hidden="true">·</span><a id="tekideki-source" href="https://github.com/TekiDeki/BMI-Calculator" target="_blank" rel="noopener noreferrer">Source code</a><span aria-hidden="true">·</span><a href="https://tekideki.github.io/BMI-Calculator/LICENSE" target="_blank" rel="noopener noreferrer">Apache-2.0</a></div>
 </footer>
 
 <script>
+"use strict";
+
+/* ============================================================
+   TRANSLATIONS
+   ============================================================ */
 const translations = {
   ro: {
+    locale: 'ro-RO',
     title: "Calculator IMC - Indice de Masă Corporală | BMI Calculator",
-    description: "Calculator IMC gratuit online - calculează rapid Indicele de Masă Corporală (BMI).",
+    description: "Calculator IMC gratuit - afli indicele de masă corporală, intervalul sănătos pentru înălțimea ta și categoria. Metric și imperial, offline, fără reclame.",
     heading: "Calculator IMC",
-    subtitle: "Calculează rapid indicele tău de masă corporală",
-    weightLabel: "Greutate (kg)",
-    heightLabel: "Înălțime (cm)",
+    subtitle: "Calculează-ți indicele de masă corporală și intervalul sănătos",
+    unitsLegend: "Sistem de unități",
+    unitMetric: "Metric (kg, cm)",
+    unitImperial: "Imperial (lb, ft/in)",
+    weightLabelMetric: "Greutate (kg)",
+    weightLabelImperial: "Greutate (lb)",
+    heightLabelMetric: "Înălțime (cm)",
+    heightLabelImperial: "Înălțime",
+    ftLabel: "ft",
+    inLabel: "in",
     button: "Calculează IMC",
     reset: "Resetează",
     resultPlaceholder: "Completează datele",
+    zoneObese: "30+",
+    healthyTitle: "Interval sănătos",
+    deltaUnder: "Pentru intervalul normal: +{x}",
+    deltaOver: "Pentru intervalul normal: -{x}",
+    deltaOk: "Ești în intervalul normal.",
     note: "IMC este un indicator orientativ, nu un diagnostic medical.",
+    privacy: "Nicio dată nu părăsește dispozitivul. Greutatea și înălțimea nu sunt salvate.",
     donate: "Merit o cafeluță?",
     share: "Distribuie",
     shareTitle: "Calculator IMC",
-    shareText: "Calculează-ți rapid Indicele de Masă Corporală cu acest calculator gratuit!",
+    shareText: "Calculează-ți indicele de masă corporală și intervalul sănătos:",
     shareCopied: "Link copiat!",
-    themeDark: "Dark",
-    themeLight: "Light",
-    categories: { under: "Subponderal", normal: "Greutate normală", over: "Supraponderal", obese: "Obezitate" },
-    invalid: "Completează date valide"
+    copyLinkPrompt: "Copiază acest link:",
+    updateReady: "O versiune nouă este disponibilă.",
+    updateReload: "Reîncarcă",
+    themeDark: "Întunecat",
+    themeLight: "Luminos",
+    themeToggleLabel: "Comută tema",
+    langLabel: "Limbă",
+    errNumber: "Introdu un număr valid",
+    errWeightRangeMetric: "Greutatea trebuie să fie între {min} și {max} kg",
+    errWeightRangeImperial: "Greutatea trebuie să fie între {min} și {max} lb",
+    errHeightRangeMetric: "Înălțimea trebuie să fie între {min} și {max} cm",
+    errHeightRangeImperial: "Înălțimea trebuie să fie între 1 ft 8 in și 8 ft 6 in",
+    categories: { under: "Subponderal", normal: "Greutate normală", over: "Supraponderal", obese: "Obezitate" }
   },
   en: {
+    locale: 'en-GB',
     title: "BMI Calculator - Body Mass Index",
-    description: "Free online BMI calculator - quickly calculate your Body Mass Index.",
+    description: "Free BMI calculator - your body mass index, the healthy weight range for your height and your category. Metric and imperial units, offline, no ads.",
     heading: "BMI Calculator",
-    subtitle: "Quickly calculate your Body Mass Index",
-    weightLabel: "Weight (kg)",
-    heightLabel: "Height (cm)",
+    subtitle: "Calculate your body mass index and healthy weight range",
+    unitsLegend: "Unit system",
+    unitMetric: "Metric (kg, cm)",
+    unitImperial: "Imperial (lb, ft/in)",
+    weightLabelMetric: "Weight (kg)",
+    weightLabelImperial: "Weight (lb)",
+    heightLabelMetric: "Height (cm)",
+    heightLabelImperial: "Height",
+    ftLabel: "ft",
+    inLabel: "in",
     button: "Calculate BMI",
     reset: "Reset",
     resultPlaceholder: "Fill in the data",
+    zoneObese: "30+",
+    healthyTitle: "Healthy range",
+    deltaUnder: "To reach the normal range: +{x}",
+    deltaOver: "To reach the normal range: -{x}",
+    deltaOk: "You are in the normal range.",
     note: "BMI is an indicative value, not a medical diagnosis.",
+    privacy: "No data leaves your device. Weight and height are not stored.",
     donate: "Buy me a coffee?",
     share: "Share",
     shareTitle: "BMI Calculator",
-    shareText: "Quickly calculate your Body Mass Index with this free calculator!",
+    shareText: "Check your body mass index and healthy weight range:",
     shareCopied: "Link copied!",
+    copyLinkPrompt: "Copy this link:",
+    updateReady: "A new version is available.",
+    updateReload: "Reload",
     themeDark: "Dark",
     themeLight: "Light",
-    categories: { under: "Underweight", normal: "Normal weight", over: "Overweight", obese: "Obese" },
-    invalid: "Please enter valid data"
+    themeToggleLabel: "Toggle theme",
+    langLabel: "Language",
+    errNumber: "Enter a valid number",
+    errWeightRangeMetric: "Weight must be between {min} and {max} kg",
+    errWeightRangeImperial: "Weight must be between {min} and {max} lb",
+    errHeightRangeMetric: "Height must be between {min} and {max} cm",
+    errHeightRangeImperial: "Height must be between 1 ft 8 in and 8 ft 6 in",
+    categories: { under: "Underweight", normal: "Normal weight", over: "Overweight", obese: "Obese" }
   },
   "sr-Latn": {
+    locale: 'sr-Latn-RS',
     title: "Kalkulator BMI - Indeks telesne mase",
-    description: "Besplatni online kalkulator BMI - brzo izračunajte svoj indeks telesne mase.",
+    description: "Besplatni BMI kalkulator - indeks telesne mase, zdrav opseg težine za vašu visinu i kategorija. Metrički i imperijalni, oflajn, bez reklama.",
     heading: "Kalkulator BMI",
-    subtitle: "Brzo izračunajte svoj indeks telesne mase",
-    weightLabel: "Težina (kg)",
-    heightLabel: "Visina (cm)",
+    subtitle: "Izračunajte indeks telesne mase i zdrav opseg težine",
+    unitsLegend: "Sistem jedinica",
+    unitMetric: "Metrički (kg, cm)",
+    unitImperial: "Imperijalni (lb, ft/in)",
+    weightLabelMetric: "Težina (kg)",
+    weightLabelImperial: "Težina (lb)",
+    heightLabelMetric: "Visina (cm)",
+    heightLabelImperial: "Visina",
+    ftLabel: "ft",
+    inLabel: "in",
     button: "Izračunaj BMI",
     reset: "Resetuj",
     resultPlaceholder: "Popunite podatke",
+    zoneObese: "30+",
+    healthyTitle: "Zdrav opseg",
+    deltaUnder: "Do normalnog opsega: +{x}",
+    deltaOver: "Do normalnog opsega: -{x}",
+    deltaOk: "U normalnom ste opsegu.",
     note: "BMI je orijentacioni pokazatelj, a ne medicinska dijagnoza.",
+    privacy: "Nijedan podatak ne napušta uređaj. Težina i visina se ne čuvaju.",
     donate: "Časti me kafom?",
     share: "Podeli",
     shareTitle: "Kalkulator BMI",
-    shareText: "Brzo izračunajte svoj indeks telesne mase pomoću ovog besplatnog kalkulatora!",
+    shareText: "Proverite svoj indeks telesne mase i zdrav opseg težine:",
     shareCopied: "Link kopiran!",
+    copyLinkPrompt: "Kopirajte ovaj link:",
+    updateReady: "Dostupna je nova verzija.",
+    updateReload: "Učitaj ponovo",
     themeDark: "Taman",
     themeLight: "Svetao",
-    categories: { under: "Pothranjenost", normal: "Normalna težina", over: "Prekomerna težina", obese: "Gojaznost" },
-    invalid: "Unesite ispravne podatke"
+    themeToggleLabel: "Promeni temu",
+    langLabel: "Jezik",
+    errNumber: "Unesite ispravan broj",
+    errWeightRangeMetric: "Težina mora biti između {min} i {max} kg",
+    errWeightRangeImperial: "Težina mora biti između {min} i {max} lb",
+    errHeightRangeMetric: "Visina mora biti između {min} i {max} cm",
+    errHeightRangeImperial: "Visina mora biti između 1 ft 8 in i 8 ft 6 in",
+    categories: { under: "Pothranjenost", normal: "Normalna težina", over: "Prekomerna težina", obese: "Gojaznost" }
   },
   "sr-Cyrl": {
+    locale: 'sr-Cyrl-RS',
     title: "Калкулатор БМИ - Индекс телесне масе",
-    description: "Бесплатни онлајн калкулатор БМИ - брзо израчунајте свој индекс телесне масе.",
+    description: "Бесплатни БМИ калкулатор - индекс телесне масе, здрав опсег тежине за вашу висину и категорија. Метрички и империјални, офлајн, без реклама.",
     heading: "Калкулатор БМИ",
-    subtitle: "Брзо израчунајте свој индекс телесне масе",
-    weightLabel: "Тежина (kg)",
-    heightLabel: "Висина (cm)",
+    subtitle: "Израчунајте индекс телесне масе и здрав опсег тежине",
+    unitsLegend: "Систем јединица",
+    unitMetric: "Метрички (kg, cm)",
+    unitImperial: "Империјални (lb, ft/in)",
+    weightLabelMetric: "Тежина (kg)",
+    weightLabelImperial: "Тежина (lb)",
+    heightLabelMetric: "Висина (cm)",
+    heightLabelImperial: "Висина",
+    ftLabel: "ft",
+    inLabel: "in",
     button: "Израчунај БМИ",
     reset: "Ресетуј",
     resultPlaceholder: "Попуните податке",
+    zoneObese: "30+",
+    healthyTitle: "Здрав опсег",
+    deltaUnder: "До нормалног опсега: +{x}",
+    deltaOver: "До нормалног опсега: -{x}",
+    deltaOk: "У нормалном сте опсегу.",
     note: "БМИ је оријентациони показатељ, а не медицинска дијагноза.",
+    privacy: "Ниједан податак не напушта уређај. Тежина и висина се не чувају.",
     donate: "Части ме кафом?",
     share: "Подели",
     shareTitle: "Калкулатор БМИ",
-    shareText: "Брзо израчунајте свој индекс телесне масе помоћу овог бесплатног калкулатора!",
+    shareText: "Проверите свој индекс телесне масе и здрав опсег тежине:",
     shareCopied: "Линк копиран!",
+    copyLinkPrompt: "Копирајте овај линк:",
+    updateReady: "Доступна је нова верзија.",
+    updateReload: "Учитај поново",
     themeDark: "Таман",
     themeLight: "Светао",
-    categories: { under: "Потхрањеност", normal: "Нормална тежина", over: "Прекомерна тежина", obese: "Гојазност" },
-    invalid: "Унесите исправне податке"
+    themeToggleLabel: "Промени тему",
+    langLabel: "Језик",
+    errNumber: "Унесите исправан број",
+    errWeightRangeMetric: "Тежина мора бити између {min} и {max} kg",
+    errWeightRangeImperial: "Тежина мора бити између {min} и {max} lb",
+    errHeightRangeMetric: "Висина мора бити између {min} и {max} cm",
+    errHeightRangeImperial: "Висина мора бити између 1 ft 8 in и 8 ft 6 in",
+    categories: { under: "Потхрањеност", normal: "Нормална тежина", over: "Прекомерна тежина", obese: "Гојазност" }
   }
 };
 
-const urlLang = new URLSearchParams(window.location.search).get('lang');
-let currentLang = (urlLang && translations[urlLang]) ? urlLang : (localStorage.getItem('imc-lang') || (navigator.language && navigator.language.startsWith('en') ? 'en' : 'ro'));
+const SUPPORTED_LANGS = ['ro', 'en', 'sr-Latn', 'sr-Cyrl'];
+const LOCALES = { ro: 'ro-RO', en: 'en-GB', 'sr-Latn': 'sr-Latn-RS', 'sr-Cyrl': 'sr-Cyrl-RS' };
 
-function applyLanguage(lang){
-  if(!translations[lang]) lang = 'ro';
-  currentLang = lang;
-  localStorage.setItem('imc-lang', lang);
-  const t = translations[lang];
-  document.documentElement.lang = lang;
-  document.title = t.title;
-  document.querySelector('meta[name="description"]').setAttribute('content', t.description);
+/* Weight/height limits, in the unit shown to the user. */
+const LIMITS = {
+  metric: { weightMin: 1, weightMax: 500, heightMin: 40, heightMax: 260 },
+  imperial: { weightMin: 2, weightMax: 1100, heightMinCm: 40, heightMaxCm: 260, heightMinIn: 20, heightMaxIn: 102 }
+};
 
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if(t[key] !== undefined) el.textContent = t[key];
-  });
+const KG_PER_LB = 0.45359237;
+const CM_PER_IN = 2.54;
+const LB_PER_KG = 1 / KG_PER_LB;
 
-  document.getElementById('lang-select').value = lang;
-  const themeIsDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.getElementById('theme-label').textContent = themeIsDark ? t.themeLight : t.themeDark;
-
-  updateResultDisplay();
+/* ============================================================
+   SAFE STORAGE (works even when storage is blocked)
+   ============================================================ */
+const memoryStore = new Map();
+function storeGet(key){
+  try { return localStorage.getItem(key); } catch (e) { return memoryStore.has(key) ? memoryStore.get(key) : null; }
+}
+function storeSet(key, value){
+  memoryStore.set(key, value);
+  try { localStorage.setItem(key, value); return true; } catch (e) { return false; }
 }
 
-document.getElementById('lang-select').addEventListener('change', (e) => applyLanguage(e.target.value));
+/* ============================================================
+   STATE
+   ============================================================ */
+const el = (id) => document.getElementById(id);
+let currentLang = 'ro';
+let lastBmi = null;
+let lastWeightKg = null;
+let lastHeightM = null;
+/* Canonical values (kg and cm) remembered when the unit system changes, so a
+   metric <-> imperial round trip does not lose precision. "dirty" means the
+   visible text changed after the canonical value was recorded. */
+const canonical = { weightKg: null, heightCm: null };
+const canonicalDirty = { weight: true, height: true };
 
-let lastIMC = null;
+function T(){ return translations[currentLang] || translations.ro; }
+function currentUnit(){ return document.documentElement.getAttribute('data-unit') === 'imperial' ? 'imperial' : 'metric'; }
+function formatNumber(value, digits = 1){
+  const nf = new Intl.NumberFormat(LOCALES[currentLang] || 'ro-RO', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+  return nf.format(value);
+}
+/* Used for values written into the inputs: locale decimal separator, no
+   grouping separator, trailing zeros trimmed, so the value can be read back. */
+function formatInput(value, maxDigits){
+  const nf = new Intl.NumberFormat(LOCALES[currentLang] || 'ro-RO', { useGrouping: false, maximumFractionDigits: maxDigits });
+  return nf.format(value);
+}
 
-function calculateIMC(){
-  const w = parseFloat(document.getElementById('weight').value);
-  const h = parseFloat(document.getElementById('height').value) / 100;
-  const t = translations[currentLang];
-  if(!w || !h || w <= 0 || h <= 0){
-    lastIMC = null;
-    document.getElementById('imc-value').textContent = '--';
-    document.getElementById('imc-category').textContent = t.invalid;
+/* ============================================================
+   INPUT PARSING AND VALIDATION
+   ============================================================ */
+function parseNum(raw){
+  if (raw === null || raw === undefined) return NaN;
+  const cleaned = String(raw).trim().replace(/\s+/g, '').replace(',', '.');
+  if (cleaned === '' || !/^\d+(\.\d+)?$/.test(cleaned)) return NaN;
+  return parseFloat(cleaned);
+}
+
+function clearErrors(){
+  ['err-weight', 'err-height', 'err-height-imperial'].forEach((id) => {
+    const node = el(id);
+    if (node) { node.hidden = true; node.textContent = ''; }
+  });
+  ['weight', 'height', 'height-ft', 'height-in'].forEach((id) => {
+    const node = el(id);
+    if (node) node.removeAttribute('aria-invalid');
+  });
+}
+
+function setError(fieldId, errorId, message){
+  const field = el(fieldId);
+  const node = el(errorId);
+  if (field) field.setAttribute('aria-invalid', 'true');
+  if (node) { node.textContent = message; node.hidden = false; }
+}
+
+function readInputs(){
+  const t = T();
+  const unit = currentUnit();
+  clearErrors();
+
+  let weightKg = null;
+  let heightM = null;
+  let ok = true;
+
+  if (!canonicalDirty.weight && canonical.weightKg !== null) {
+    /* The field still holds a value the app wrote when the unit system changed,
+       so the remembered kg value is used to avoid rounding drift. */
+    weightKg = canonical.weightKg;
+  } else {
+    const w = parseNum(el('weight').value);
+    if (!Number.isFinite(w)) {
+      setError('weight', 'err-weight', t.errNumber);
+      ok = false;
+    } else if (unit === 'imperial' ? (w < LIMITS.imperial.weightMin || w > LIMITS.imperial.weightMax)
+                                   : (w < LIMITS.metric.weightMin || w > LIMITS.metric.weightMax)) {
+      const lim = LIMITS[unit];
+      setError('weight', 'err-weight', t['errWeightRange' + (unit === 'imperial' ? 'Imperial' : 'Metric')]
+        .replace('{min}', formatNumber(lim.weightMin, 0)).replace('{max}', formatNumber(lim.weightMax, 0)));
+      ok = false;
+    } else {
+      weightKg = unit === 'imperial' ? w * KG_PER_LB : w;
+      canonical.weightKg = weightKg;
+      canonicalDirty.weight = false;
+    }
+  }
+
+  if (!canonicalDirty.height && canonical.heightCm !== null) {
+    heightM = canonical.heightCm / 100;
+  } else if (unit === 'metric') {
+    const h = parseNum(el('height').value);
+    if (!Number.isFinite(h)) {
+      setError('height', 'err-height', t.errNumber);
+      ok = false;
+    } else if (h < LIMITS.metric.heightMin || h > LIMITS.metric.heightMax) {
+      setError('height', 'err-height', t.errHeightRangeMetric
+        .replace('{min}', formatNumber(LIMITS.metric.heightMin, 0)).replace('{max}', formatNumber(LIMITS.metric.heightMax, 0)));
+      ok = false;
+    } else {
+      heightM = h / 100;
+      canonical.heightCm = h;
+      canonicalDirty.height = false;
+    }
+  } else {
+    const ft = parseNum(el('height-ft').value);
+    const inchRaw = el('height-in').value.trim();
+    const inch = inchRaw === '' ? 0 : parseNum(inchRaw);
+    if (!Number.isFinite(ft) || !Number.isFinite(inch)) {
+      setError('height-ft', 'err-height-imperial', t.errNumber);
+      ok = false;
+    } else {
+      const totalIn = ft * 12 + inch;
+      const wholeFeet = Number.isInteger(ft) && ft >= 1 && ft <= 8;
+      const wholeInches = Number.isInteger(inch) && inch >= 0 && inch <= 11;
+      if (!wholeFeet || !wholeInches || totalIn < LIMITS.imperial.heightMinIn || totalIn > LIMITS.imperial.heightMaxIn) {
+        setError('height-ft', 'err-height-imperial', t.errHeightRangeImperial);
+        ok = false;
+      } else {
+        heightM = (totalIn * CM_PER_IN) / 100;
+        canonical.heightCm = totalIn * CM_PER_IN;
+        canonicalDirty.height = false;
+      }
+    }
+  }
+
+  return { ok, weightKg, heightM };
+}
+
+/* ============================================================
+   CALCULATION AND DISPLAY
+   ============================================================ */
+function categoryOf(bmi){
+  if (bmi < 18.5) return 'under';
+  if (bmi < 25) return 'normal';
+  if (bmi < 30) return 'over';
+  return 'obese';
+}
+
+function calculate(){
+  const { ok, weightKg, heightM } = readInputs();
+  if (!ok) {
+    lastBmi = null;
+    lastWeightKg = null;
+    lastHeightM = null;
+    renderResult();
     return;
   }
-  lastIMC = w / (h*h);
-  updateResultDisplay();
+  lastWeightKg = weightKg;
+  lastHeightM = heightM;
+  lastBmi = weightKg / (heightM * heightM);
+  renderResult();
+}
+
+function renderResult(){
+  const t = T();
+  const unit = currentUnit();
+  const valueNode = el('imc-value');
+  const chip = el('imc-category');
+  const marker = el('scale-marker');
+  const healthyLine = el('healthy-line');
+  const deltaLine = el('delta-line');
+
+  if (lastBmi === null) {
+    valueNode.textContent = '--';
+    chip.textContent = t.resultPlaceholder;
+    chip.className = 'chip';
+    marker.classList.remove('visible');
+    healthyLine.hidden = true;
+    deltaLine.hidden = true;
+    return;
+  }
+
+  valueNode.textContent = formatNumber(lastBmi, 1);
+  const cat = categoryOf(lastBmi);
+  chip.textContent = t.categories[cat];
+  chip.className = 'chip chip-' + cat;
+
+  const clamped = Math.min(40, Math.max(14, lastBmi));
+  marker.style.left = ((clamped - 14) / 26 * 100).toFixed(2) + '%';
+  marker.classList.add('visible');
+
+  const minKg = 18.5 * lastHeightM * lastHeightM;
+  const maxKg = 24.9 * lastHeightM * lastHeightM;
+  const unitShort = unit === 'imperial' ? 'lb' : 'kg';
+  const toDisplay = (kg) => (unit === 'imperial' ? kg * LB_PER_KG : kg);
+
+  healthyLine.textContent = t.healthyTitle + ': ' + formatNumber(toDisplay(minKg), 1) + ' - ' + formatNumber(toDisplay(maxKg), 1) + ' ' + unitShort;
+  healthyLine.hidden = false;
+
+  if (lastBmi < 18.5) {
+    deltaLine.textContent = t.deltaUnder.replace('{x}', formatNumber(toDisplay(minKg - lastWeightKg), 1) + ' ' + unitShort);
+    deltaLine.hidden = false;
+  } else if (lastBmi >= 25) {
+    deltaLine.textContent = t.deltaOver.replace('{x}', formatNumber(toDisplay(lastWeightKg - maxKg), 1) + ' ' + unitShort);
+    deltaLine.hidden = false;
+  } else {
+    deltaLine.textContent = t.deltaOk;
+    deltaLine.hidden = false;
+  }
 }
 
 function resetForm(){
-  document.getElementById('weight').value = '';
-  document.getElementById('height').value = '';
-  lastIMC = null;
-  updateResultDisplay();
-  document.getElementById('weight').focus();
+  ['weight', 'height', 'height-ft', 'height-in'].forEach((id) => { el(id).value = ''; });
+  clearErrors();
+  lastBmi = null;
+  lastWeightKg = null;
+  lastHeightM = null;
+  canonical.weightKg = null;
+  canonical.heightCm = null;
+  canonicalDirty.weight = true;
+  canonicalDirty.height = true;
+  renderResult();
+  el('weight').focus();
 }
 
-function updateResultDisplay(){
-  const t = translations[currentLang];
-  if(lastIMC === null){
-    document.getElementById('imc-value').textContent = '--';
-    document.getElementById('imc-category').textContent = t.resultPlaceholder;
-    return;
-  }
-  document.getElementById('imc-value').textContent = lastIMC.toFixed(1);
-  let cat;
-  if(lastIMC < 18.5) cat = t.categories.under;
-  else if(lastIMC < 25) cat = t.categories.normal;
-  else if(lastIMC < 30) cat = t.categories.over;
-  else cat = t.categories.obese;
-  document.getElementById('imc-category').textContent = cat;
-}
-
-function applyTheme(theme){
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('imc-theme', theme);
-  document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
-  const t = translations[currentLang];
-  document.getElementById('theme-label').textContent = theme === 'dark' ? t.themeLight : t.themeDark;
-}
-
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme');
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-});
-
-// Init theme
-const savedTheme = localStorage.getItem('imc-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-applyTheme(savedTheme);
-
-// Init language
-applyLanguage(currentLang);
-
-// PWA: register service worker
-if('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW registration failed:', err));
+/* ============================================================
+   UNITS
+   ============================================================ */
+function updateUnitLabels(){
+  const t = T();
+  const unit = currentUnit();
+  document.querySelectorAll('[data-unit-key-metric]').forEach((node) => {
+    if (unit !== 'metric') return;
+    node.textContent = t[node.getAttribute('data-unit-key-metric')] || node.textContent;
+  });
+  document.querySelectorAll('[data-unit-key-imperial]').forEach((node) => {
+    if (unit !== 'imperial') return;
+    node.textContent = t[node.getAttribute('data-unit-key-imperial')] || node.textContent;
   });
 }
 
-async function shareApp(){
-  const t = translations[currentLang];
-  const shareData = {
-    title: t.shareTitle,
-    text: t.shareText,
-    url: window.location.href
-  };
+function readWeightKg(unit){
+  const value = parseNum(el('weight').value);
+  if (!Number.isFinite(value)) return null;
+  return unit === 'imperial' ? value * KG_PER_LB : value;
+}
 
-  if(navigator.share){
-    try{
-      await navigator.share(shareData);
-    }catch(err){
-      // Utilizatorul a anulat sau a apărut o eroare - nu facem nimic
+function readHeightCm(unit){
+  if (unit === 'metric') {
+    const value = parseNum(el('height').value);
+    return Number.isFinite(value) ? value : null;
+  }
+  const ft = parseNum(el('height-ft').value);
+  const inchRaw = el('height-in').value.trim();
+  const inch = inchRaw === '' ? 0 : parseNum(inchRaw);
+  if (!Number.isFinite(ft) || !Number.isFinite(inch)) return null;
+  return (ft * 12 + inch) * CM_PER_IN;
+}
+
+function convertVisibleInputs(from, to){
+  if (from === to) return;
+
+  const kg = canonicalDirty.weight ? readWeightKg(from) : canonical.weightKg;
+  if (kg !== null && Number.isFinite(kg)) {
+    canonical.weightKg = kg;
+    el('weight').value = to === 'imperial' ? formatInput(kg * LB_PER_KG, 1) : formatInput(kg, 2);
+  } else {
+    canonical.weightKg = null;
+    el('weight').value = '';
+  }
+  canonicalDirty.weight = false;
+
+  const cm = canonicalDirty.height ? readHeightCm(from) : canonical.heightCm;
+  if (cm !== null && Number.isFinite(cm)) {
+    canonical.heightCm = cm;
+    if (to === 'imperial') {
+      const totalIn = cm / CM_PER_IN;
+      let ft = Math.floor(totalIn / 12);
+      let inch = Math.round(totalIn - ft * 12);
+      if (inch === 12) { ft += 1; inch = 0; }
+      el('height-ft').value = String(ft);
+      el('height-in').value = String(inch);
+      el('height').value = '';
+    } else {
+      el('height').value = formatInput(cm, 2);
+      el('height-ft').value = '';
+      el('height-in').value = '';
     }
   } else {
-    try{
-      await navigator.clipboard.writeText(shareData.url);
-      const btn = document.getElementById('share-btn');
-      const original = btn.innerHTML;
-      btn.innerHTML = '✅ ' + t.shareCopied;
-      setTimeout(() => { btn.innerHTML = original; }, 2000);
-    }catch(err){
-      window.prompt('Copy this link:', shareData.url);
+    canonical.heightCm = null;
+    el('height').value = '';
+    el('height-ft').value = '';
+    el('height-in').value = '';
+  }
+  canonicalDirty.height = false;
+}
+
+function applyUnit(unit, options){
+  const opts = options || {};
+  const previous = currentUnit();
+  if (unit !== 'metric' && unit !== 'imperial') unit = 'metric';
+  const inputsHaveValues = ['weight', 'height', 'height-ft', 'height-in'].some((id) => el(id).value.trim() !== '');
+  document.documentElement.setAttribute('data-unit', unit);
+  if (opts.convert !== false && previous !== unit && inputsHaveValues) {
+    convertVisibleInputs(previous, unit);
+  } else if (opts.convert !== false && previous !== unit) {
+    canonical.weightKg = null;
+    canonical.heightCm = null;
+    canonicalDirty.weight = true;
+    canonicalDirty.height = true;
+  }
+  document.querySelectorAll('input[name="unit"]').forEach((radio) => {
+    radio.checked = (radio.value === unit);
+  });
+  storeSet('imc-unit', unit);
+  updateUnitLabels();
+  clearErrors();
+  if (lastBmi !== null) renderResult();
+}
+
+/* ============================================================
+   THEME
+   ============================================================ */
+function applyTheme(theme){
+  if (theme !== 'dark' && theme !== 'light') theme = 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+  storeSet('imc-theme', theme);
+  el('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+  const t = T();
+  el('theme-label').textContent = theme === 'dark' ? t.themeLight : t.themeDark;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f172a' : '#eef1fb');
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+function applyLanguage(lang){
+  if (!translations[lang]) lang = 'ro';
+  currentLang = lang;
+  storeSet('imc-lang', lang);
+  const t = T();
+  document.documentElement.lang = lang;
+  document.title = t.title;
+  const desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute('content', t.description);
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', t.title);
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', t.description);
+
+  document.querySelectorAll('[data-i18n]').forEach((node) => {
+    const key = node.getAttribute('data-i18n');
+    if (t[key] !== undefined) node.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach((node) => {
+    const key = node.getAttribute('data-i18n-aria');
+    if (t[key] !== undefined) node.setAttribute('aria-label', t[key]);
+  });
+
+  el('lang-select').value = lang;
+  el('lang-select').setAttribute('aria-label', t.langLabel);
+  updateUnitLabels();
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  renderResult();
+}
+
+/* ============================================================
+   SHARE
+   ============================================================ */
+function buildShareUrl(){
+  const url = new URL(window.location.href);
+  url.search = '';
+  url.searchParams.set('lang', currentLang);
+  if (currentUnit() === 'imperial') url.searchParams.set('unit', 'imperial');
+  return url.toString();
+}
+
+function copyText(text){
+  const value = String(text);
+  const fallback = () => {
+    try {
+      const area = document.createElement('textarea');
+      area.value = value;
+      area.setAttribute('readonly', '');
+      area.style.cssText = 'position:fixed; opacity:0; left:-9999px;';
+      document.body.appendChild(area);
+      area.select();
+      area.setSelectionRange(0, 99999);
+      const ok = document.execCommand('copy');
+      document.body.removeChild(area);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  };
+  if (!navigator.clipboard || !navigator.clipboard.writeText) return Promise.resolve(fallback());
+  return navigator.clipboard.writeText(value).then(() => true, () => fallback());
+}
+
+async function shareApp(){
+  const t = T();
+  const url = buildShareUrl();
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: t.shareTitle, text: t.shareText, url });
+      return;
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
     }
   }
+  const ok = await copyText(url);
+  const label = el('share-label');
+  if (ok && label) {
+    const original = label.textContent;
+    label.textContent = '✅ ' + t.shareCopied;
+    setTimeout(() => { label.textContent = original; }, 2000);
+  } else {
+    window.prompt(t.copyLinkPrompt, url);
+  }
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+el('bmi-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  calculate();
+});
+el('calc-btn').addEventListener('click', (event) => { event.preventDefault(); calculate(); });
+el('reset-btn').addEventListener('click', resetForm);
+el('share-btn').addEventListener('click', shareApp);
+el('theme-toggle').addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+el('lang-select').addEventListener('change', (event) => applyLanguage(event.target.value));
+document.querySelectorAll('input[name="unit"]').forEach((radio) => {
+  radio.addEventListener('change', (event) => applyUnit(event.target.value));
+});
+['weight', 'height', 'height-ft', 'height-in'].forEach((id) => {
+  el(id).addEventListener('input', () => {
+    const node = el(id);
+    if (id === 'weight') canonicalDirty.weight = true;
+    else canonicalDirty.height = true;
+    if (node.getAttribute('aria-invalid') === 'true') {
+      node.removeAttribute('aria-invalid');
+      const target = id === 'weight' ? 'err-weight' : (id === 'height' ? 'err-height' : 'err-height-imperial');
+      const error = el(target);
+      if (error) { error.hidden = true; error.textContent = ''; }
+    }
+  });
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+(function init(){
+  const params = new URLSearchParams(window.location.search);
+  const urlLang = params.get('lang');
+  const savedLang = storeGet('imc-lang');
+  const browserLang = navigator.language || 'ro';
+  const detected = browserLang.startsWith('en') ? 'en' : (browserLang.startsWith('sr') ? (browserLang.includes('Cyrl') ? 'sr-Cyrl' : 'sr-Latn') : 'ro');
+  currentLang = (urlLang && translations[urlLang]) ? urlLang : (translations[savedLang] ? savedLang : detected);
+  const unit = (params.get('unit') === 'imperial') ? 'imperial' : (storeGet('imc-unit') === 'imperial' ? 'imperial' : 'metric');
+  applyUnit(unit, { convert: false });
+  applyLanguage(currentLang);
+  renderResult();
+})();
+
+/* ============================================================
+   SERVICE WORKER + UPDATE NOTICE
+   ============================================================ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch((err) => console.warn('SW registration failed:', err));
+  });
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SW_UPDATED') {
+      const notice = el('update-notice');
+      if (notice) notice.hidden = false;
+    }
+  });
+  const reloadBtn = el('update-reload');
+  if (reloadBtn) reloadBtn.addEventListener('click', () => window.location.reload());
 }
 </script>
 
@@ -545,7 +1261,6 @@ async function shareApp(){
   <p id="td-install-note"></p>
   <button type="button" id="td-install-close" autofocus>Close</button>
 </dialog>
-
 <script>
 /* SPDX-License-Identifier: Apache-2.0
  * Copyright 2026 Kristian Mario Mišković (TekiDeki).

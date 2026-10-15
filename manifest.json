@@ -1,7 +1,7 @@
 {
   "name": "Calculator IMC - BMI Calculator",
   "short_name": "Calculator IMC",
-  "description": "Calculator IMC gratuit online, disponibil în română, engleză și sârbă (latină și chirilică). Funcționează offline.",
+  "description": "Calculator IMC gratuit: indicele de masă corporală, intervalul sănătos pentru înălțimea ta și categoria. Unități metrice și imperiale, disponibil în română, engleză și sârbă (latină și chirilică). Funcționează offline.",
   "id": "/calculator-imc/",
   "start_url": "./index.html",
   "scope": "./",
@@ -40,6 +40,50 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-narrow.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Calculator IMC in Romanian, dark theme, with the BMI value, category and healthy range"
+    },
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1280x1103",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "BMI Calculator in English, light theme, on a desktop screen"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Metric calculator (kg, cm)",
+      "short_name": "Metric",
+      "description": "Calculate BMI with kilograms and centimetres",
+      "url": "./index.html?unit=metric",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Imperial calculator (lb, ft/in)",
+      "short_name": "Imperial",
+      "description": "Calculate BMI with pounds and feet/inches",
+      "url": "./index.html?unit=imperial",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

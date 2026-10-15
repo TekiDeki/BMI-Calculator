@@ -1,12 +1,15 @@
-// Service Worker informativ pentru Calculator IMC (TekiDeki)
+// Service Worker pentru Calculator IMC (TekiDeki)
 // Strategie: cache-first pentru shell-ul aplicației, cu fallback la rețea.
+// SPDX-License-Identifier: Apache-2.0
 
-const CACHE_NAME = 'calculator-imc-v5';
+const CACHE_NAME = 'calculator-imc-v6';
+const CACHE_PREFIX = 'calculator-imc-v';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './LICENSE',
   './manifest.json',
+  './og-image.png',
   './favicon.ico',
   './icon-192.png',
   './icon-512.png',
@@ -24,16 +27,19 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activare: curăță cache-urile vechi din versiunile anterioare
+// Activare: curăță cache-urile vechi din versiunile anterioare.
+// Dacă exista o versiune veche, anunță paginile deschise să ofere reîncărcarea.
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => key.startsWith('calculator-imc-v') && key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
-      )
-    ).then(() => self.clients.claim())
+    caches.keys().then((keys) => {
+      const oldCaches = keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME);
+      return Promise.all(oldCaches.map((key) => caches.delete(key))).then(() => {
+        if (oldCaches.length === 0) return undefined;
+        return self.clients.matchAll({ type: 'window' }).then((clients) => {
+          clients.forEach((client) => client.postMessage({ type: 'SW_UPDATED', cache: CACHE_NAME }));
+        });
+      });
+    }).then(() => self.clients.claim())
   );
 });
 
