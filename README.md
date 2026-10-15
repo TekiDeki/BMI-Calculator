@@ -2,7 +2,7 @@
 
 # ⚖️ Calculator IMC / BMI Calculator
 
-### Your Body Mass Index in two taps — in four languages
+### Your Body Mass Index in two taps - in four languages
 
 A zero-dependency, single-file web app that calculates your BMI and tells you what it means.
 
@@ -22,7 +22,7 @@ A zero-dependency, single-file web app that calculates your BMI and tells you wh
 
 **👉 [https://tekideki.github.io/BMI-Calculator/](https://tekideki.github.io/BMI-Calculator/)**
 
-No installation needed. Works in any modern browser (Chrome, Firefox, Safari, Edge) — and offline once loaded.
+No installation needed. Works in any modern browser (Chrome, Firefox, Safari, Edge) - and offline once loaded.
 
 ---
 
@@ -30,23 +30,23 @@ No installation needed. Works in any modern browser (Chrome, Firefox, Safari, Ed
 
 **Calculator IMC (BMI Calculator)** is a browser-based tool that calculates your **Body Mass Index** in seconds. Enter your weight and height, and it shows your BMI value plus what category it falls into.
 
-The app runs **100% client-side**. No build step, no backend, no tracking. Your data never leaves your browser — nothing is sent anywhere.
+The app runs **100% client-side**. No build step, no backend, no tracking. Your data never leaves your browser - nothing is sent anywhere.
 
 ---
 
 ## ✨ Features
 
-- ⚡ **Instant calculation** — Weight (kg) + Height (cm) → BMI value and category
-- 📊 **Clear categories** — Underweight · Normal weight · Overweight · Obese
-- 🌍 **4 languages** — Română, English, Srpski (latinica), Српски (ћирилица)
-- 🔗 **Language in the URL** — every language has its own shareable link (`?lang=en`, `?lang=sr-Cyrl`…)
-- 🌗 **Dark & light theme** — follows your system preference, remembers your choice
-- 📤 **Share button** — native share sheet on mobile, clipboard copy fallback on desktop
-- 📦 **Works offline** — full PWA with service worker caching; installable on phone & desktop
-- 🪶 **Zero dependencies** — no frameworks, no build step, no CDN, no fonts to download
-- 🔍 **SEO-ready** — JSON-LD (WebApplication), Open Graph, Twitter cards, canonical + `hreflang` alternates
-- 📱 **Mobile-first** — numeric keypad for inputs, responsive layout, notch-safe viewport
-- ⚠️ **Honest by design** — a visible note reminds that BMI is an indicative value, not a medical diagnosis
+- ⚡ **Instant calculation** - Weight (kg) + Height (cm) → BMI value and category
+- 📊 **Clear categories** - Underweight · Normal weight · Overweight · Obese
+- 🌍 **4 languages** - Română, English, Srpski (latinica), Српски (ћирилица)
+- 🔗 **Language in the URL** - every language has its own shareable link (`?lang=en`, `?lang=sr-Cyrl`…)
+- 🌗 **Dark & light theme** - follows your system preference, remembers your choice
+- 📤 **Share button** - native share sheet on mobile, clipboard copy fallback on desktop
+- 📦 **Works offline** - full PWA with service worker caching; installable on phone & desktop
+- 🪶 **Zero dependencies** - no frameworks, no build step, no CDN, no fonts to download
+- 🔍 **SEO-ready** - JSON-LD (WebApplication), Open Graph, Twitter cards, canonical + `hreflang` alternates
+- 📱 **Mobile-first** - numeric keypad for inputs, responsive layout, notch-safe viewport
+- ⚠️ **Honest by design** - a visible note reminds that BMI is an indicative value, not a medical diagnosis
 
 ---
 
@@ -65,13 +65,13 @@ The app runs **100% client-side**. No build step, no backend, no tracking. Your 
 
 ## 🚀 Quick Start
 
-### Option 1 — Use the Live Demo (Simplest)
+### Option 1 - Use the Live Demo (Simplest)
 
 **👉 [https://tekideki.github.io/BMI-Calculator/](https://tekideki.github.io/BMI-Calculator/)**
 
 Nothing to install. Just open and calculate.
 
-### Option 2 — Clone & Run Locally
+### Option 2 - Clone & Run Locally
 
 ```bash
 git clone https://github.com/TekiDeki/BMI-Calculator.git
@@ -87,7 +87,7 @@ Then open **http://localhost:8000**
 
 > ⚠️ **Note:** For PWA features (install prompt, offline mode) the app must be served over **HTTPS** or **localhost**.
 
-### Option 3 — Fork & Deploy to Your Own GitHub Pages
+### Option 3 - Fork & Deploy to Your Own GitHub Pages
 
 1. **Fork** this repository
 2. Go to **Settings → Pages**
@@ -114,7 +114,7 @@ Then open **http://localhost:8000**
 
 1. Open the live demo
 2. Click the **install icon** (⊕) in the address bar
-3. Click **"Install"** — the app opens in its own window
+3. Click **"Install"** - the app opens in its own window
 
 > Once installed, the app works offline thanks to the service worker (`sw.js`).
 
@@ -125,9 +125,9 @@ Then open **http://localhost:8000**
 | Code | Language | Default |
 |------|----------|:-------:|
 | `ro` | Română | ✅ (fallback) |
-| `en` | English | — (auto-detected from browser) |
-| `sr-Latn` | Srpski (latinica) | — |
-| `sr-Cyrl` | Српски (ћирилица) | — |
+| `en` | English | - (auto-detected from browser) |
+| `sr-Latn` | Srpski (latinica) | - |
+| `sr-Cyrl` | Српски (ћирилица) | - |
 
 The interface language follows this priority: **URL parameter** (`?lang=…`) → saved choice → browser language → Romanian.
 
@@ -135,12 +135,12 @@ The interface language follows this priority: **URL parameter** (`?lang=…`) �
 
 ## 🛠️ Tech Stack
 
-- **HTML5** — one file, semantic markup
-- **CSS3** — custom properties for theming, no preprocessor
-- **Vanilla JavaScript** — no frameworks, no bundler, no npm
-- **Service Worker** — offline caching (cache-first strategy)
-- **Web App Manifest** — installable as a PWA
-- **JSON-LD** — structured data for SEO (`WebApplication`)
+- **HTML5** - one file, semantic markup
+- **CSS3** - custom properties for theming, no preprocessor
+- **Vanilla JavaScript** - no frameworks, no bundler, no npm
+- **Service Worker** - offline caching (cache-first strategy)
+- **Web App Manifest** - installable as a PWA
+- **JSON-LD** - structured data for SEO (`WebApplication`)
 
 No external CDNs. No analytics. No tracking.
 
