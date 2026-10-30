@@ -8,8 +8,8 @@
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#eef1fb",
-  "theme_color": "#4f46e5",
-  "lang": "ro",
+  "theme_color": "#eef1fb",
+  "lang": "en",
   "dir": "ltr",
   "categories": [
     "health",
