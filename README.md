@@ -7,6 +7,7 @@
 A zero-dependency, single-file web app that calculates your BMI, shows the healthy weight range for your height and tells you what it means.
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square)](LICENSE)
+[![Support](https://img.shields.io/badge/support-buy%20me%20a%20coffee-ff5f5f?style=flat-square)](https://paypal.me/TekiDeki)
 [![Version](https://img.shields.io/badge/version-2.0-informational?style=flat-square)](#-changelog)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=flat-square)](#)
 [![PWA](https://img.shields.io/badge/PWA-offline-success?style=flat-square)](#)
